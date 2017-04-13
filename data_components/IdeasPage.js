@@ -3,21 +3,34 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import  * as ideasActions from '../common/actions/ideasActions';
 
-
 class IdeasPage extends React.Component {
 
     constructor(props, context) {
-       super(props, context);
+        super(props, context);
     }
 
+    componentDidMount() {
+        this.props.actions.loadIdeas();
+    }
 
+    render() {
+        console.log(this.props.children.length);
+        if (this.props.children.length > 1) {
+            throw new Error('IdeasPage can have no more than 1 child');
+        }
+        const childrenWithProps = React.Children.map(this.props.children,
+            (child) => React.cloneElement(child, {
+                ideas: this.props.ideas
+            })
+        );
+        return childrenWithProps[0];
+    }
 
 
 }
 
 IdeasPage.propTypes = {
-    //TODO
-    ideas: React.PropTypes.array.isRequired
+    ideas: React.PropTypes.array
 };
 
 function mapStateToProps(state, ownProps) {
