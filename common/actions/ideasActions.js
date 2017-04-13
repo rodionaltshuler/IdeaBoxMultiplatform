@@ -1,12 +1,18 @@
 import * as types from './actionTypes';
 import {beginAjaxCall, ajaxCallError} from './ajaxStatusActions';
+import ideasApi from './../api/ideasApi';
 
 export function loadIdeas() {
     return function (dispatch) {
         dispatch(beginAjaxCall());
-        //TODO load from server
-        const ideas = ['First idea', 'Second idea', 'And one more idea'];
-        dispatch(loadIdeasSuccess(ideas));
+        return ideasApi.getAllIdeas()
+            .then(res => {
+                console.log("dispatching response: " + res);
+                dispatch(loadIdeasSuccess(res));
+            })
+            .catch(error => {
+                dispatch(ajaxCallError());
+            });
     };
 }
 

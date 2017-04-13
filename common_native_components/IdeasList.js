@@ -1,5 +1,6 @@
 import React from "react";
-import {View, Text, StyleSheet} from 'react-native';
+import {View, ListView, Text, StyleSheet, StatusBar} from 'react-native';
+import IdeaItem from './IdeaItem'
 
 class IdeasList extends React.Component {
 
@@ -8,16 +9,19 @@ class IdeasList extends React.Component {
     }
 
     render() {
-        console.log('Rendeing IdeasList: ' + this.props.ideas);
-        console.log(this.props.ideas);
-        return (
-            <View style={styles.container}>
-                <Text style={styles.itemtext}>Here are the ideas:</Text>
-                <Text style={styles.itemtext}>
-                    {this.props.ideas}
-                </Text>
-            </View>
-        );
+        if (this.props.ideas) {
+            const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows(this.props.ideas);
+            return (
+                <View style={styles.container}>
+                    <ListView
+                        dataSource={dataSource}
+                        backgroundColor="#FFFFFF"
+                        renderRow={(idea) => <IdeaItem idea={idea} />}
+                        renderSeparator={() => <View style={{backgroundColor:"#000000", height:1}} />}
+                    />
+                </View>
+            );
+        }
     }
 
 
@@ -30,14 +34,8 @@ IdeasList.propTypes = {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F5FCFF',
-        justifyContent: 'center',
-        alignItems: 'center'
+        backgroundColor: '#F5FCFF'
     },
-    itemtext: {
-        fontSize: 20,
-        textAlign: 'left'
-    }
 });
 
 export default IdeasList;
