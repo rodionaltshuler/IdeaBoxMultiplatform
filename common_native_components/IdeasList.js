@@ -1,5 +1,5 @@
 import React from "react";
-import {View, ListView, Text, StyleSheet, StatusBar} from 'react-native';
+import {View, ListView, RefreshControl, Text, StyleSheet, StatusBar} from 'react-native';
 import IdeaItem from './IdeaItem'
 
 class IdeasList extends React.Component {
@@ -14,6 +14,9 @@ class IdeasList extends React.Component {
             return (
                 <View style={styles.container}>
                     <ListView
+                        refreshControl={<RefreshControl
+                            refreshing={false}
+                         />}
                         dataSource={dataSource}
                         backgroundColor="#FFFFFF"
                         renderRow={(idea) => <IdeaItem idea={idea} />}
