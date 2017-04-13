@@ -7,6 +7,11 @@ class IdeasPage extends React.Component {
 
     constructor(props, context) {
         super(props, context);
+        this.navigateToAddIdea = this.navigateToAddIdea.bind(this);
+    }
+
+    navigateToAddIdea() {
+         console.log('Adding an idea');
     }
 
     componentDidMount() {
@@ -20,7 +25,8 @@ class IdeasPage extends React.Component {
         }
         const childrenWithProps = React.Children.map(this.props.children,
             (child) => React.cloneElement(child, {
-                ideas: this.props.ideas
+                ideas: this.props.ideas,
+                onAdd: this.navigateToAddIdea
             })
         );
         return childrenWithProps[0];

@@ -9,7 +9,7 @@ class IdeaItem extends React.Component {
 
     render() {
         return (
-            <View style={{flex:1, height:56, backgroundColor: '#d4dadd', alignItems:'stretch', justifyContent:'center'}}>
+            <View style={{flex:1, height:56, backgroundColor: '#ffffff', alignItems:'stretch', justifyContent:'center'}}>
                 <Text style={styles.itemtext}>{this.props.idea}</Text>
             </View>
         );
