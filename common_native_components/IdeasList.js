@@ -16,10 +16,15 @@ class IdeasList extends React.Component {
     constructor(props, context) {
         super(props, context);
         this._onAdd = this._onAdd.bind(this);
+        this._onRefresh = this._onRefresh.bind(this);
     }
 
     _onAdd() {
         this.props.onAdd();
+    }
+
+    _onRefresh() {
+        this.props.onRefresh();
     }
 
     render() {
@@ -36,6 +41,7 @@ class IdeasList extends React.Component {
                     <ListView
                         refreshControl={<RefreshControl
                             refreshing={false}
+                            onRefresh={this._onRefresh}
                          />}
                         style={styles.listView}
                         dataSource={dataSource}
@@ -58,6 +64,7 @@ class IdeasList extends React.Component {
 
 IdeasList.propTypes = {
     onAdd: React.PropTypes.func,
+    onRefresh: React.PropTypes.func,
     ideas: React.PropTypes.arrayOf(React.PropTypes.string)
 };
 
