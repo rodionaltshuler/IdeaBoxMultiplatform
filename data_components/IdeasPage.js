@@ -2,8 +2,16 @@ import React from "react";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import  * as ideasActions from '../common/actions/ideasActions';
+import IdeasList from './../common_native_components/IdeasList'
+import {Text} from 'react-native';
 
 class IdeasPage extends React.Component {
+
+    static navigationOptions = {
+        title: 'Lohika Idea Box',
+        headerStyle: { backgroundColor: '#4fcb54'},
+        headerTintColor: 'white',
+    };
 
     constructor(props, context) {
         super(props, context);
@@ -12,7 +20,7 @@ class IdeasPage extends React.Component {
     }
 
     navigateToAddIdea() {
-         console.log('Adding an idea');
+        console.log('Adding an idea');
     }
 
     forceRefresh() {
@@ -24,18 +32,11 @@ class IdeasPage extends React.Component {
     }
 
     render() {
-        console.log(this.props.children.length);
-        if (this.props.children.length > 1) {
-            throw new Error('IdeasPage can have no more than 1 child');
-        }
-        const childrenWithProps = React.Children.map(this.props.children,
-            (child) => React.cloneElement(child, {
-                ideas: this.props.ideas,
-                onAdd: this.navigateToAddIdea,
-                onRefresh: this.forceRefresh
-            })
-        );
-        return childrenWithProps[0];
+        return <IdeasList
+            ideas={this.props.ideas}
+            onAdd={this.navigateToAddIdea}
+            onRefresh={this.forceRefresh}
+        />
     }
 
 

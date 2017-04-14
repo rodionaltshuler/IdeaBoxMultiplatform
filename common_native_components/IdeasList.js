@@ -7,7 +7,7 @@ import {
     TouchableNativeFeedback,
     Text,
     StyleSheet,
-    ToolbarAndroid
+    TouchableOpacity
 } from 'react-native';
 import IdeaItem from './IdeaItem'
 
@@ -32,12 +32,6 @@ class IdeasList extends React.Component {
             const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows(this.props.ideas);
             return (
                 <View style={styles.container}>
-                    <ToolbarAndroid
-                        title='Lohika Idea Box'
-                        titleColor='#FFFFFF'
-                        style={styles.toolbar}
-                        logo={require('./../images/ic_launcher.png')}
-                    />
                     <ListView
                         refreshControl={<RefreshControl
                             refreshing={false}
@@ -48,12 +42,12 @@ class IdeasList extends React.Component {
                         renderRow={(idea) => <IdeaItem idea={idea} />}
                         renderSeparator={() => <View style={styles.separator} />}
                     />
-                    <TouchableNativeFeedback
+                    <TouchableOpacity
                         onPress={this._onAdd}>
                         <View style={{height: 56, backgroundColor: '#af4408', justifyContent: 'center'}}>
                             <Text style={styles.buttonText}>Submit your idea</Text>
                         </View>
-                    </TouchableNativeFeedback>
+                    </TouchableOpacity>
                 </View>
             );
         }

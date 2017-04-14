@@ -1,5 +1,5 @@
 import React from "react";
-import {View, ListView, Text, StyleSheet, StatusBar} from 'react-native';
+import {View, TouchableOpacity, ListView, Text, StyleSheet, StatusBar} from 'react-native';
 
 class IdeaItem extends React.Component {
 
@@ -9,8 +9,11 @@ class IdeaItem extends React.Component {
 
     render() {
         return (
-            <View style={{flex:1, height:56, backgroundColor: '#ffffff', alignItems:'stretch', justifyContent:'center'}}>
-                <Text style={styles.itemtext}>{this.props.idea}</Text>
+            <View
+                style={{flex:1, height:56, backgroundColor: '#ffffff', alignItems:'stretch', justifyContent:'center'}}>
+                <TouchableOpacity>
+                    <Text style={styles.itemtext}>{this.props.idea}</Text>
+                </TouchableOpacity>
             </View>
         );
     }
