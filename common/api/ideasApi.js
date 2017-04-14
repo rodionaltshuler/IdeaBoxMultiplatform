@@ -8,6 +8,14 @@ class ideasApi {
                 return response.json();
             });
     }
+
+    static submitIdea(idea) {
+        //TODO make real POST
+        return fetch(config.baseUrl + '/ideas.json')
+            .then(function (response) {
+                return idea;
+            });
+    }
 }
 
 export default ideasApi;

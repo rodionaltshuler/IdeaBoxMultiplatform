@@ -1,4 +1,9 @@
 import React from 'react';
+
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import  * as ideasActions from './../common/actions/ideasActions';
+
 import {View, TextInput, Text, StyleSheet} from 'react-native';
 import DefaultButton from './DefaultButton';
 
@@ -12,7 +17,13 @@ class AddIdea extends React.Component {
 
     constructor(props, context) {
         super(props, context);
-        this.state = { title: "" }
+        this.state = { ideaInput: "" };
+
+        this.onSubmit = this.onSubmit.bind(this);
+    }
+
+    onSubmit() {
+        this.props.actions.submitIdea(this.state.ideaInput);
     }
 
     render() {
@@ -25,7 +36,7 @@ class AddIdea extends React.Component {
                     multiline={true}
                     value={this.state.ideaInput}
                 />
-                <DefaultButton title='Submit'/>
+                <DefaultButton title='Submit' onPress={this.onSubmit}/>
             </View>
         );
     }
@@ -45,4 +56,16 @@ const styles = StyleSheet.create({
     }
 });
 
-export default AddIdea;
+function mapStateToProps(state, ownProps) {
+    return {
+        ideas: state.ideas,
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(ideasActions, dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddIdea);
