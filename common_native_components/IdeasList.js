@@ -9,6 +9,7 @@ import {
     StyleSheet,
     TouchableOpacity
 } from 'react-native';
+import DefaultButton from './DefaultButton';
 import IdeaItem from './IdeaItem'
 
 class IdeasList extends React.Component {
@@ -38,16 +39,12 @@ class IdeasList extends React.Component {
                             onRefresh={this._onRefresh}
                          />}
                         style={styles.listView}
+                        enableEmptySections={true}
                         dataSource={dataSource}
                         renderRow={(idea) => <IdeaItem idea={idea} />}
                         renderSeparator={() => <View style={styles.separator} />}
                     />
-                    <TouchableOpacity
-                        onPress={this._onAdd}>
-                        <View style={{height: 56, backgroundColor: '#af4408', justifyContent: 'center'}}>
-                            <Text style={styles.buttonText}>Submit your idea</Text>
-                        </View>
-                    </TouchableOpacity>
+                    <DefaultButton onPress={this._onAdd} title='Submit your idea'/>
                 </View>
             );
         }
@@ -75,12 +72,6 @@ const styles = StyleSheet.create({
     button: {
         height: 50,
         justifyContent: 'center'
-    },
-    buttonText: {
-        fontSize: 20,
-        textAlign: 'center',
-        fontWeight: '600',
-        color: 'white'
     },
     listView: {
         backgroundColor: '#FFFFFF'

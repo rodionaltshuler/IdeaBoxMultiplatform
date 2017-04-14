@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import  * as ideasActions from '../common/actions/ideasActions';
 import IdeasList from './../common_native_components/IdeasList'
-import {Text} from 'react-native';
 
 class IdeasPage extends React.Component {
 
@@ -20,7 +19,7 @@ class IdeasPage extends React.Component {
     }
 
     navigateToAddIdea() {
-        console.log('Adding an idea');
+        this.props.navigation.navigate('AddIdea');
     }
 
     forceRefresh() {
