@@ -56,7 +56,7 @@ class IdeasList extends React.Component {
 IdeasList.propTypes = {
     onAdd: React.PropTypes.func,
     onRefresh: React.PropTypes.func,
-    ideas: React.PropTypes.arrayOf(React.PropTypes.string)
+    ideas: React.PropTypes.arrayOf(React.PropTypes.object)
 };
 
 const styles = StyleSheet.create({

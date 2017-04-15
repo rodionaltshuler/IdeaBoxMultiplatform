@@ -12,7 +12,7 @@ class IdeaItem extends React.Component {
             <View
                 style={{flex:1, height:56, backgroundColor: '#ffffff', alignItems:'stretch', justifyContent:'center'}}>
                 <TouchableOpacity>
-                    <Text style={styles.itemtext}>{this.props.idea}</Text>
+                    <Text style={styles.itemtext}>{this.props.idea.title}</Text>
                 </TouchableOpacity>
             </View>
         );
@@ -21,7 +21,7 @@ class IdeaItem extends React.Component {
 }
 
 IdeaItem.propTypes = {
-    idea: React.PropTypes.string
+    idea: React.PropTypes.object
 };
 
 const styles = StyleSheet.create({

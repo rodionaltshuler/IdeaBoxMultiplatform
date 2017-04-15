@@ -7,7 +7,7 @@ export function loadIdeas() {
         dispatch(beginAjaxCall());
         return ideasApi.getAllIdeas()
             .then(res => {
-                console.log("dispatching response: " + res);
+                console.log("dispatching response: " + res + '\n' + JSON.stringify(res));
                 dispatch(loadIdeasSuccess(res));
             })
             .catch(error => {
