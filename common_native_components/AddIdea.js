@@ -23,7 +23,7 @@ class AddIdea extends React.Component {
     }
 
     onSubmit() {
-        this.props.actions.submitIdea(this.state.ideaInput);
+        this.props.actions.submitIdea(this.state.ideaInput, this.props.user.uid);
     }
 
     render() {
@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
 function mapStateToProps(state, ownProps) {
     return {
         ideas: state.ideas,
+        user: state.user
     };
 }
 

@@ -8,6 +8,8 @@ import initialState from './common/store/initialState';
 
 const store = configureStore(initialState);
 
+console.disableYellowBox = true;
+
 export default class IdeaBoxMultiPlatform extends Component {
 
   render() {

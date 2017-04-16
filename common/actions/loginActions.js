@@ -7,11 +7,11 @@ export function loginAnonymously() {
         dispatch(beginAjaxCall());
         return loginApi.loginAnonymously()
             .then(user => {
-                console.log('Dispatching logged in user: ' + user.uid);
                 dispatch(loginAnonymouslySuccess(user.toJSON()));
             })
             .catch(error => {
                 dispatch(ajaxCallError());
+                throw error;
             });
     };
 }

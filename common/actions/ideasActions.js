@@ -7,7 +7,6 @@ export function loadIdeas() {
         dispatch(beginAjaxCall());
         return ideasApi.getAllIdeas()
             .then(res => {
-                console.log("dispatching response: " + res + '\n' + JSON.stringify(res));
                 dispatch(loadIdeasSuccess(res));
             })
             .catch(error => {
@@ -23,12 +22,12 @@ export function loadIdeasSuccess(ideas) {
     }
 }
 
-export function submitIdea(idea) {
+export function submitIdea(idea, userUid) {
     return function(dispatch) {
         dispatch(beginAjaxCall());
-        return ideasApi.submitIdea(idea)
+        return ideasApi.submitIdea(idea, userUid)
             .then(res => {
-                dispatch(submitIdeaSuccess(idea));
+                dispatch(submitIdeaSuccess(res));
             })
             .catch(error => {
                 dispatch(ajaxCallError());

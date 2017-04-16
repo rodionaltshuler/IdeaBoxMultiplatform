@@ -1,25 +1,34 @@
-import config from './config'
 import firebase from './firebase';
 
 class ideasApi {
 
-
     static getAllIdeas() {
         return firebase.database().ref('/ideas').once('value')
             .then(function (snapshot) {
-                    //here we have JSON we need
-                    console.log('Snapshot: ' + JSON.stringify(snapshot));
                     return snapshot.toJSON();
                 }
             );
     }
 
-    static submitIdea(idea) {
-        //TODO make real POST
-        return fetch(config.baseUrl + '/ideas.json')
-            .then(function (response) {
-                return idea;
+    static submitIdea(idea, userUid) {
+
+        console.log('Submitting ' + idea + ' with author ' + userUid);
+        const newIdea = {
+            title: idea,
+            author: userUid,
+            dateAdded: Math.floor(Date.now() / 1000)
+        };
+
+        return firebase.database().ref('/ideas').push(newIdea)
+            .then((newRef) => {
+                newIdea.id = newRef.key;
+                return newIdea;
+            })
+            .catch(error => {
+                console.log('Error setting new idea: ' + error.message);
+                throw error;
             });
+
     }
 }
 
