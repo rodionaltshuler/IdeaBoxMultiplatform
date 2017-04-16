@@ -1,3 +1,5 @@
+import * as firebase from "firebase";
+
 const firebaseConfig = {
     apiKey: "AIzaSyCXzXG3RxU_7ETtWXWi4m83D0x4Ds2xZmw",
     authDomain: "ideasbox-700e7.firebaseapp.com",
@@ -7,4 +9,6 @@ const firebaseConfig = {
     messagingSenderId: "249860736035"
 };
 
-export default firebaseConfig;
+firebase.initializeApp(firebaseConfig);
+
+export default firebase;

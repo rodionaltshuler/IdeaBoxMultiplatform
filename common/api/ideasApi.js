@@ -1,8 +1,5 @@
 import config from './config'
-import * as firebase from "firebase";
-import firebaseConfig from './firebaseConfig';
-
-firebase.initializeApp(firebaseConfig);
+import firebase from './firebase';
 
 class ideasApi {
 
@@ -12,15 +9,9 @@ class ideasApi {
             .then(function (snapshot) {
                     //here we have JSON we need
                     console.log('Snapshot: ' + JSON.stringify(snapshot));
-                    return snapshot;
+                    return snapshot.toJSON();
                 }
             );
-
-        /*console.log("Getting ideas from server");
-         return fetch(config.baseUrl + '/ideas.json')
-         .then(function (response) {
-         return response.json();
-         });*/
     }
 
     static submitIdea(idea) {
