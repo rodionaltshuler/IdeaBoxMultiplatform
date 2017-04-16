@@ -1,5 +1,6 @@
 const initialState = {
   ideas: [],
+  user: {},
   ajaxCallsInProgress: 0
 };
 

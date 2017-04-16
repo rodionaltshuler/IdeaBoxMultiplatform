@@ -3,6 +3,7 @@ import {View, Text} from 'react-native';
 import {StackNavigator} from 'react-navigation';
 
 import IdeasPage from './../data_components/IdeasPage';
+import AuthPage from './../data_components/AuthPage';
 import AddIdea from './AddIdea';
 
 class IdeasRouter extends Component {
@@ -13,13 +14,14 @@ class IdeasRouter extends Component {
 
     render() {
         const Router = StackNavigator({
+            AuthPage: {
+                screen: AuthPage
+            },
             IdeasList: {
-                screen: IdeasPage,
-                title: 'Ideas'
+                screen: IdeasPage
             },
             AddIdea: {
                 screen: AddIdea,
-                title: 'Submit your idea',
             }
         },
             {
