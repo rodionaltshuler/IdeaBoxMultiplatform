@@ -43,9 +43,9 @@ class AuthPage extends React.Component {
 
     render() {
         return (
-            <View style={{flex: 1}}>
+            <View style={{flex: 1, justifyContent: 'center'}}>
                 <DefaultButton
-                title="Login"
+                title="Login anonymously"
                 onPress={this.onPressLogin}
                 />
             </View>

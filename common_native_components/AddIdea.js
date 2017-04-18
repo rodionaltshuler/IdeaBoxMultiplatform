@@ -33,7 +33,7 @@ class AddIdea extends React.Component {
             console.log('Processing submitIdeaStatus: ' + JSON.stringify(status));
             switch (status.status) {
                 case requestStatus.COMPLETED: {
-                    this.setState({ideaInput: "", isLoading: false, message: 'Idea ' + status.idea.title + ' submitted'});
+                    this.setState({ideaInput: "", isLoading: false, message: 'Idea was submitted successfully!'});
                     this.props.navigation.goBack = this.props.navigation.goBack.bind(this);
                     setTimeout(this.props.navigation.goBack, 3000);
                     break;
