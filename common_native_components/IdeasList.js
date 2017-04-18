@@ -29,25 +29,23 @@ class IdeasList extends React.Component {
     }
 
     render() {
-        if (this.props.ideas) {
-            const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows(this.props.ideas);
-            return (
-                <View style={styles.container}>
-                    <ListView
-                        refreshControl={<RefreshControl
-                            refreshing={false}
-                            onRefresh={this._onRefresh}
-                         />}
-                        style={styles.listView}
-                        enableEmptySections={true}
-                        dataSource={dataSource}
-                        renderRow={(idea) => <IdeaItem idea={idea} />}
-                        renderSeparator={() => <View style={styles.separator} />}
-                    />
-                    <DefaultButton onPress={this._onAdd} title='Submit your idea'/>
-                </View>
-            );
-        }
+        const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows(this.props.ideas);
+        return (
+            <View style={styles.container}>
+                <ListView
+                    refreshControl={<RefreshControl
+                        refreshing={false}
+                        onRefresh={this._onRefresh}
+                    />}
+                    style={styles.listView}
+                    enableEmptySections={true}
+                    dataSource={dataSource}
+                    renderRow={(idea) => <IdeaItem idea={idea}/>}
+                    renderSeparator={() => <View style={styles.separator}/>}
+                />
+                <DefaultButton onPress={this._onAdd} title='Submit your idea'/>
+            </View>
+        );
     }
 
 

@@ -23,22 +23,43 @@ export function loadIdeasSuccess(ideas) {
 }
 
 export function submitIdea(idea, userUid) {
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch(beginAjaxCall());
+        dispatch(submitIdeaInProgress());
         return ideasApi.submitIdea(idea, userUid)
             .then(res => {
                 dispatch(submitIdeaSuccess(res));
             })
             .catch(error => {
+                dispatch(submitIdeaFailed(error.message));
                 dispatch(ajaxCallError());
             });
     };
+}
+
+export function submitIdeaInProgress() {
+    return {
+        type: types.ADD_IDEA_IN_PROGRESS
+    }
 }
 
 export function submitIdeaSuccess(idea) {
     return {
         type: types.ADD_IDEA_SUCCESS,
         idea
+    }
+}
+
+export function submitIdeaFailed(message) {
+    return {
+        type: types.ADD_IDEA_FAILED,
+        message
+    }
+}
+
+export function submitIdeaConsumeStatus() {
+    return {
+        type: types.ADD_IDEA_CONSUME_STATUS
     }
 }
 
