@@ -7,7 +7,8 @@ import {
     TouchableNativeFeedback,
     Text,
     StyleSheet,
-    TouchableOpacity
+    TouchableOpacity,
+    ActivityIndicator
 } from 'react-native';
 import DefaultButton from './DefaultButton';
 import IdeaItem from './IdeaItem'
@@ -34,7 +35,8 @@ class IdeasList extends React.Component {
             <View style={styles.container}>
                 <ListView
                     refreshControl={<RefreshControl
-                        refreshing={false}
+                        colors={['#40a544']}
+                        refreshing={this.props.loading || false}
                         onRefresh={this._onRefresh}
                     />}
                     style={styles.listView}

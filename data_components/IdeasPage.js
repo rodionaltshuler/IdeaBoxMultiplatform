@@ -16,6 +16,7 @@ class IdeasPage extends React.Component {
         super(props, context);
         this.navigateToAddIdea = this.navigateToAddIdea.bind(this);
         this.forceRefresh = this.forceRefresh.bind(this);
+        this.state = {};
     }
 
     navigateToAddIdea() {
@@ -30,9 +31,14 @@ class IdeasPage extends React.Component {
         this.props.actions.loadIdeas();
     }
 
+    componentWillReceiveProps(nextProps) {
+        this.setState({ isLoading: nextProps.loading });
+    }
+
     render() {
         return <IdeasList
             ideas={this.props.ideas}
+            loading={this.state.isLoading}
             onAdd={this.navigateToAddIdea}
             onRefresh={this.forceRefresh}
         />
@@ -42,12 +48,14 @@ class IdeasPage extends React.Component {
 }
 
 IdeasPage.propTypes = {
-    ideas: React.PropTypes.array
+    ideas: React.PropTypes.arrayOf(React.PropTypes.object),
+    loading: React.PropTypes.bool
 };
 
 function mapStateToProps(state, ownProps) {
     return {
         ideas: state.ideas,
+        loading: state.ajaxCallsInProgress > 0
     };
 }
 

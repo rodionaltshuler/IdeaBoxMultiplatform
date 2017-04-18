@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import  * as ideasActions from './../common/actions/ideasActions';
 
-import {View, TextInput, Text, StyleSheet} from 'react-native';
+import {View, TextInput, Text, StyleSheet, ActivityIndicator} from 'react-native';
 import DefaultButton from './DefaultButton';
 import requestStatus from './../common/actions/requestStatus';
 
@@ -19,7 +19,6 @@ class AddIdea extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {ideaInput: ""};
-
         this.onSubmit = this.onSubmit.bind(this);
     }
 
@@ -34,28 +33,37 @@ class AddIdea extends React.Component {
             console.log('Processing submitIdeaStatus: ' + JSON.stringify(status));
             switch (status.status) {
                 case requestStatus.COMPLETED: {
-                    console.log('Idea ' + status.idea.title + ' submitted');
-                    this.props.navigation.goBack();
+                    this.setState({ideaInput: "", isLoading: false, message: 'Idea ' + status.idea.title + ' submitted'});
+                    this.props.navigation.goBack = this.props.navigation.goBack.bind(this);
+                    setTimeout(this.props.navigation.goBack, 3000);
                     break;
                 }
                 case requestStatus.FAILED: {
-                    console.log('Error submitting idea: ' + status.message);
+                    this.setState({isLoading: false, message: status.message});
                     break;
                 }
                 case requestStatus.IN_PROGRESS: {
+                    this.setState({isLoading: true});
                     console.log('Idea submission is in progress');
                     break;
                 }
                 default: {
-                    //do nothing
+                    this.setState({isLoading: false});
                 }
             }
         }
     }
 
     render() {
+        const loading = this.state.isLoading ?
+            <ActivityIndicator animating={true} /> :
+            <Text style={styles.messageText}>{this.state.message}</Text>;
+
+        console.log('Rendering with state.loading = ' + this.state.isLoading);
+
         return (
             <View style={styles.container}>
+                {loading}
                 <TextInput
                     style={styles.inputField}
                     onChangeText={(text) => this.setState({ideaInput: text})}
@@ -80,7 +88,13 @@ const styles = StyleSheet.create({
         height: 56,
         margin: 8,
         fontSize: 20
+    },
+    messageText: {
+        fontSize: 16,
+        alignSelf: 'stretch',
+        textAlign: 'center'
     }
+
 });
 
 function mapStateToProps(state, ownProps) {
