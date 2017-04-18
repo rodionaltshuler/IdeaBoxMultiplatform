@@ -5,6 +5,8 @@ import  * as loginActions from '../common/actions/loginActions';
 import DefaultButton from './../common_native_components/DefaultButton'
 import { View } from 'react-native';
 
+import { NavigationActions } from 'react-navigation';
+
 class AuthPage extends React.Component {
 
     static navigationOptions = {
@@ -27,7 +29,11 @@ class AuthPage extends React.Component {
     }
 
     navigateToIdeas() {
-        this.props.navigation.navigate('IdeasList');
+        const resetAction = NavigationActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({routeName: 'IdeasList'})]
+        });
+        this.props.navigation.dispatch(resetAction);
     }
 
 
