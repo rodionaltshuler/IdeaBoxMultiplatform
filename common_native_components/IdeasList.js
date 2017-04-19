@@ -18,16 +18,11 @@ class IdeasList extends React.Component {
     constructor(props, context) {
         super(props, context);
         this._onAdd = this._onAdd.bind(this);
-        this._onRefresh = this._onRefresh.bind(this);
         this.sort = this.sort.bind(this);
     }
 
     _onAdd() {
         this.props.onAdd();
-    }
-
-    _onRefresh() {
-        this.props.onRefresh();
     }
 
     sort(idea1, idea2) {
@@ -43,7 +38,6 @@ class IdeasList extends React.Component {
                     refreshControl={<RefreshControl
                         colors={['#40a544']}
                         refreshing={this.props.loading || false}
-                        onRefresh={this._onRefresh}
                     />}
                     style={styles.listView}
                     enableEmptySections={true}
@@ -65,11 +59,11 @@ class IdeasList extends React.Component {
 
 IdeasList.propTypes = {
     onAdd: React.PropTypes.func,
-    onRefresh: React.PropTypes.func,
     ideas: React.PropTypes.arrayOf(React.PropTypes.object),
     onUpvote: React.PropTypes.func.isRequired,
     onDownvote: React.PropTypes.func.isRequired,
-    user: React.PropTypes.object.isRequired
+    user: React.PropTypes.object.isRequired,
+    loading: React.PropTypes.bool.isRequired
 };
 
 const styles = StyleSheet.create({

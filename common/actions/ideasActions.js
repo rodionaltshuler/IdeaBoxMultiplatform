@@ -2,41 +2,29 @@ import * as types from './actionTypes';
 import {beginAjaxCall, ajaxCallError} from './ajaxStatusActions';
 import ideasApi from './../api/ideasApi';
 
+let subscribed = false;
+
 export function subscribeForIdeasUpdates() {
+
+
     return function(dispatch) {
         const updateListener = function (updateType, updateSnapshot) {
             console.log('Dispatching update data: ' + JSON.stringify(updateType));
             console.log('And a snapshot: ' + JSON.stringify(updateSnapshot));
             dispatch({type: updateType.action, idea: updateSnapshot});
         };
-        ideasApi.subscribeForIdeasUpdate(updateListener);
+
+        if (!subscribed) {
+            subscribed = ideasApi.subscribeForIdeasUpdate(updateListener);
+        }
     }
 }
 
 export function unsubscribeFromIdeasUpdates() {
     return function(dispatch) {
-        ideasApi.unsubscribeFromIdeasUpdates();
-    }
-}
-
-
-export function loadIdeas() {
-    return function (dispatch) {
-        dispatch(beginAjaxCall());
-        return ideasApi.getAllIdeas()
-            .then(res => {
-                dispatch(loadIdeasSuccess(res));
-            })
-            .catch(error => {
-                dispatch(ajaxCallError());
-            });
-    };
-}
-
-export function loadIdeasSuccess(ideas) {
-    return {
-        type: types.LOAD_IDEAS_SUCCESS,
-        ideas
+        if (subscribed) {
+            subscribed =  !ideasApi.unsubscribeFromIdeasUpdates();
+        }
     }
 }
 

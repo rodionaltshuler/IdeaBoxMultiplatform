@@ -3,14 +3,6 @@ import updateTypes from './../actions/updateTypes';
 
 class ideasApi {
 
-    static getAllIdeas() {
-        return firebase.database().ref('/ideas').once('value')
-            .then(function (snapshot) {
-                    return snapshot.toJSON();
-                }
-            );
-    }
-
     static submitIdea(idea, userUid) {
 
         console.log('Submitting ' + idea + ' with author ' + userUid);
@@ -105,12 +97,14 @@ class ideasApi {
             });
         });
 
+        return true;
 
     }
 
     static unsubscribeFromIdeasUpdates() {
         const ref = firebase.database().ref('/ideas');
         ref.off();
+        return false;
     }
 
 }
