@@ -36,7 +36,8 @@ class ideasApi {
         return firebase.database().ref('/ideas/' + idea.id + '/upvotes')
             .update(updateUpvotes)
             .then(() => {
-                idea.upvotes = Object.assign(idea.upvotes, updateUpvotes);
+                idea.upvotes = Object.assign({}, idea.upvotes, updateUpvotes);
+                console.log('Idea updated after upvote: ' + JSON.stringify(idea));
                 return idea;
             })
             .catch(error => {
@@ -50,11 +51,12 @@ class ideasApi {
         return firebase.database().ref('/ideas/' + idea.id + '/downvotes')
             .update(updateDownvotes)
             .then(() => {
-                idea.upvotes = Object.assign(idea.downvotes, updateDownvotes);
+                idea.downvotes = Object.assign({}, idea.downvotes, updateDownvotes);
+                console.log('Idea updated after downvote: ' + JSON.stringify(idea));
                 return idea;
             })
             .catch(error => {
-                console.log('Error upvoting an idea: ' + error.message);
+                console.log('Error downvoting an idea: ' + error.message);
                 throw error;
             });
     }
