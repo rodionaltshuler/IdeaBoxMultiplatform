@@ -16,6 +16,8 @@ class IdeasPage extends React.Component {
         super(props, context);
         this.navigateToAddIdea = this.navigateToAddIdea.bind(this);
         this.forceRefresh = this.forceRefresh.bind(this);
+        this.onUpvote = this.onUpvote.bind(this);
+        this.onDownvote = this.onDownvote.bind(this);
         this.state = {};
     }
 
@@ -25,6 +27,14 @@ class IdeasPage extends React.Component {
 
     forceRefresh() {
         this.props.actions.loadIdeas();
+    }
+
+    onUpvote(idea) {
+        this.props.actions.upvoteIdea(idea, this.props.user.uid);
+    }
+
+    onDownvote(idea) {
+        this.props.actions.downvoteIdea(idea, this.props.user.uid);
     }
 
     componentDidMount() {
@@ -41,6 +51,8 @@ class IdeasPage extends React.Component {
             loading={this.state.isLoading}
             onAdd={this.navigateToAddIdea}
             onRefresh={this.forceRefresh}
+            onUpvote={this.onUpvote}
+            onDownvote={this.onDownvote}
         />
     }
 
@@ -55,6 +67,7 @@ IdeasPage.propTypes = {
 function mapStateToProps(state, ownProps) {
     return {
         ideas: state.ideas,
+        user: state.user,
         loading: state.ajaxCallsInProgress > 0
     };
 }

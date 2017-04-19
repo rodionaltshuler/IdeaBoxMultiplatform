@@ -63,6 +63,47 @@ export function submitIdeaConsumeStatus() {
     }
 }
 
+export function upvoteIdea(idea, userUid) {
+    return function (dispatch) {
+        dispatch(beginAjaxCall());
+        return ideasApi.upvote(idea, userUid)
+            .then(response => {
+                dispatch(upvoteIdeaSuccess(response))
+            })
+            .catch(error => {
+                dispatch(ajaxCallError());
+            });
+    };
+}
+
+export function upvoteIdeaSuccess(idea) {
+    return {
+        type: types.UPVOTE_IDEA_SUCCESS,
+        idea
+    }
+}
+
+export function downvoteIdea(idea, userUid) {
+    return function (dispatch) {
+        dispatch(beginAjaxCall());
+        return ideasApi.downvote(idea, userUid)
+            .then(response => {
+                dispatch(downvoteIdeaSuccess(response))
+            })
+            .catch(error => {
+                dispatch(ajaxCallError());
+            });
+    };
+}
+
+
+export function downvoteIdeaSuccess(idea) {
+    return {
+        type: types.DOWNVOTE_IDEA_SUCCESS,
+        idea
+    }
+}
+
 
 
 

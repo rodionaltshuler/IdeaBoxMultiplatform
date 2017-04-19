@@ -30,6 +30,37 @@ class ideasApi {
             });
 
     }
+
+    static upvote(idea, userUid) {
+        const updateUpvotes = { [userUid]: true };
+        return firebase.database().ref('/ideas/' + idea.id + '/upvotes')
+            .update(updateUpvotes)
+            .then(() => {
+                idea.upvotes = Object.assign(idea.upvotes, updateUpvotes);
+                return idea;
+            })
+            .catch(error => {
+                console.log('Error upvoting an idea: ' + error.message);
+                throw error;
+            });
+    }
+
+    static downvote(idea, userUid) {
+        const updateDownvotes = { [userUid]: true };
+        return firebase.database().ref('/ideas/' + idea.id + '/downvotes')
+            .update(updateDownvotes)
+            .then(() => {
+                idea.upvotes = Object.assign(idea.downvotes, updateDownvotes);
+                return idea;
+            })
+            .catch(error => {
+                console.log('Error upvoting an idea: ' + error.message);
+                throw error;
+            });
+    }
+
+
+
 }
 
 export default ideasApi;

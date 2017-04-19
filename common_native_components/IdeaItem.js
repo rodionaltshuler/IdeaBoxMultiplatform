@@ -10,6 +10,8 @@ class IdeaItem extends React.Component {
         super(props, context);
         this.getUpvotesCount = this.getUpvotesCount.bind(this);
         this.getDownvotesCount = this.getDownvotesCount.bind(this);
+        this.onDownvote = this.onDownvote.bind(this, this.props.idea);
+        this.onUpvote = this.onUpvote.bind(this, this.props.idea);
     }
 
     getUpvotesCount() {
@@ -18,6 +20,14 @@ class IdeaItem extends React.Component {
 
     getDownvotesCount() {
         return this.props.idea.downvotes ? Object.keys(this.props.idea.downvotes).length : 0;
+    }
+
+    onDownvote(idea) {
+        this.props.onDownvote(idea);
+    }
+
+    onUpvote(idea) {
+        this.props.onUpvote(idea);
     }
 
     render() {
@@ -34,9 +44,13 @@ class IdeaItem extends React.Component {
                     <Text style={styles.itemtext}>{this.props.idea.title}</Text>
                 </TouchableOpacity>
                 <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
-                    <Image style={styles.actionIcon} source={thumbUp}/>
+                    <TouchableOpacity onPress={this.onUpvote}>
+                        <Image style={styles.actionIcon} source={thumbUp} onPress={this.props.onUpvote}/>
+                    </TouchableOpacity>
                     <Text style={styles.smallText}>{this.getUpvotesCount()}</Text>
-                    <Image style={styles.actionIcon} source={thumbDown}/>
+                    <TouchableOpacity onPress={this.onDownvote}>
+                        <Image style={styles.actionIcon} source={thumbDown}/>
+                    </TouchableOpacity>
                     <Text style={styles.smallText}>{this.getDownvotesCount()}</Text>
                 </View>
             </View>
@@ -46,7 +60,9 @@ class IdeaItem extends React.Component {
 }
 
 IdeaItem.propTypes = {
-    idea: React.PropTypes.object
+    idea: React.PropTypes.object.isRequired,
+    onUpvote: React.PropTypes.func.isRequired,
+    onDownvote: React.PropTypes.func.isRequired
 };
 
 const styles = StyleSheet.create({
