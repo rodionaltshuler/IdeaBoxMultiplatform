@@ -19,6 +19,7 @@ class IdeasList extends React.Component {
         super(props, context);
         this._onAdd = this._onAdd.bind(this);
         this._onRefresh = this._onRefresh.bind(this);
+        this.sort = this.sort.bind(this);
     }
 
     _onAdd() {
@@ -29,8 +30,13 @@ class IdeasList extends React.Component {
         this.props.onRefresh();
     }
 
+    sort(idea1, idea2) {
+        return idea2.dateAdded - idea1.dateAdded;
+    }
+
     render() {
-        const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows(this.props.ideas);
+        const orderedIdas = this.props.ideas.sort((a, b) => this.sort(a, b));
+        const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows(orderedIdas);
         return (
             <View style={styles.container}>
                 <ListView
