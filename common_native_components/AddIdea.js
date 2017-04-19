@@ -23,7 +23,11 @@ class AddIdea extends React.Component {
     }
 
     onSubmit() {
-        this.props.actions.submitIdea(this.state.ideaInput, this.props.user.uid);
+        if (this.state.ideaInput && this.state.ideaInput.length > 0) {
+            this.props.actions.submitIdea(this.state.ideaInput, this.props.user.uid);
+        } else {
+            this.setState({ message: 'Please describe your idea first'});
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -56,7 +60,7 @@ class AddIdea extends React.Component {
 
     render() {
         const loading = this.state.isLoading ?
-            <ActivityIndicator animating={true} /> :
+            <ActivityIndicator animating={true}/> :
             <Text style={styles.messageText}>{this.state.message}</Text>;
 
         console.log('Rendering with state.loading = ' + this.state.isLoading);
