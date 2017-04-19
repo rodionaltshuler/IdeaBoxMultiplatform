@@ -2,6 +2,24 @@ import * as types from './actionTypes';
 import {beginAjaxCall, ajaxCallError} from './ajaxStatusActions';
 import ideasApi from './../api/ideasApi';
 
+export function subscribeForIdeasUpdates() {
+    return function(dispatch) {
+        const updateListener = function (updateType, updateSnapshot) {
+            console.log('Dispatching update data: ' + JSON.stringify(updateType));
+            console.log('And a snapshot: ' + JSON.stringify(updateSnapshot));
+            dispatch({type: updateType.action, idea: updateSnapshot});
+        };
+        ideasApi.subscribeForIdeasUpdate(updateListener);
+    }
+}
+
+export function unsubscribeFromIdeasUpdates() {
+    return function(dispatch) {
+        ideasApi.unsubscribeFromIdeasUpdates();
+    }
+}
+
+
 export function loadIdeas() {
     return function (dispatch) {
         dispatch(beginAjaxCall());
@@ -27,8 +45,8 @@ export function submitIdea(idea, userUid) {
         dispatch(beginAjaxCall());
         dispatch(submitIdeaInProgress());
         return ideasApi.submitIdea(idea, userUid)
-            .then(res => {
-                dispatch(submitIdeaSuccess(res));
+            .then(submittedIdea => {
+                dispatch(submitIdeaSuccess(submittedIdea));
             })
             .catch(error => {
                 dispatch(submitIdeaFailed(error.message));

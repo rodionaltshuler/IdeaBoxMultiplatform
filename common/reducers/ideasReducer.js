@@ -3,16 +3,14 @@ import initialState from './../store/initialState';
 
 export default function ideasReducer(state = initialState.ideas, action) {
     switch (action.type) {
-        case types.LOAD_IDEAS_SUCCESS: {
-            return Object.keys(action.ideas)
-                .map(key => Object.assign(action.ideas[key], {id: key}));
-        }
-        case types.ADD_IDEA_SUCCESS: {
+        case types.IDEA_ADDED_ON_SERVER: {
             return [...state, action.idea];
         }
-        case types.UPVOTE_IDEA_SUCCESS:
-        case types.DOWNVOTE_IDEA_SUCCESS: {
+        case types.IDEA_UPDATED_ON_SERVER: {
             return [...state.filter((idea) => idea.id !== action.idea.id), action.idea];
+        }
+        case types.IDEA_REMOVED_ON_SERVER: {
+            return state.filter((idea) => idea.id !== action.idea.id);
         }
         default: {
             return state;

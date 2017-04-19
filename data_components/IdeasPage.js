@@ -45,9 +45,19 @@ class IdeasPage extends React.Component {
         this.setState({ isLoading: nextProps.loading });
     }
 
+    componentWillMount() {
+        console.log('Subscribing for realtime ideas updates');
+        this.props.actions.subscribeForIdeasUpdates();
+    }
+
+    componentWillUnmount() {
+        console.log('Unsubscribing from realtime ideas updates');
+        this.props.actions.unsubscribeFromIdeasUpdates();
+    }
+
     render() {
         return <IdeasList
-            ideas={this.props.ideas}
+            ideas={[...this.props.ideas]}
             user={this.props.user}
             loading={this.state.isLoading}
             onAdd={this.navigateToAddIdea}

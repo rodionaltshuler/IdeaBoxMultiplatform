@@ -10,10 +10,12 @@ class IdeaItem extends React.Component {
         super(props, context);
         this.getUpvotesCount = this.getUpvotesCount.bind(this);
         this.getDownvotesCount = this.getDownvotesCount.bind(this);
-        this.onDownvote = this.onDownvote.bind(this, this.props.idea);
-        this.onUpvote = this.onUpvote.bind(this, this.props.idea);
         this.isUpvoted = this.isUpvoted.bind(this);
         this.isDownvoted = this.isDownvoted.bind(this);
+
+        this.onDownvote = this.onDownvote.bind(this);
+        this.onUpvote = this.onUpvote.bind(this);
+
     }
 
     getUpvotesCount() {
@@ -33,12 +35,14 @@ class IdeaItem extends React.Component {
         return this.props.idea.downvotes && this.props.idea.downvotes[this.props.user.uid];
     }
 
-    onDownvote(idea) {
-        this.props.onDownvote(idea);
+    onDownvote() {
+        console.log('Downvoting idea: ' + this.props.idea.title + ' with id ' + this.props.idea.id);
+        this.props.onDownvote(this.props.idea);
     }
 
-    onUpvote(idea) {
-        this.props.onUpvote(idea);
+    onUpvote() {
+        console.log('Upvoting idea: ' + this.props.idea.title + ' with id ' + this.props.idea.id);
+        this.props.onUpvote(this.props.idea);
     }
 
     render() {
@@ -57,7 +61,7 @@ class IdeaItem extends React.Component {
                 <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
                     <TouchableOpacity onPress={this.onUpvote}>
                         <Image style={this.isUpvoted() ? styles.actionIconSelected : styles.actionIcon} source={thumbUp}
-                               onPress={this.props.onUpvote}/>
+                               onPress={this.onUpvote}/>
                     </TouchableOpacity>
                     <Text style={styles.smallText}>{this.getUpvotesCount()}</Text>
                     <TouchableOpacity onPress={this.onDownvote}>

@@ -1,4 +1,5 @@
 import firebase from './firebase';
+import updateTypes from './../actions/updateTypes';
 
 class ideasApi {
 
@@ -89,6 +90,27 @@ class ideasApi {
                 console.log('Error downvoting an idea: ' + error.message);
                 throw error;
             });
+    }
+
+    static subscribeForIdeasUpdate(updateListener) {
+        const ref = firebase.database().ref('/ideas');
+
+        console.log('Subsrcibing for realtime ideas update');
+
+        Object.keys(updateTypes).forEach(key => {
+            const updateType = updateTypes[key];
+            console.log('UpdateType.name: ' + updateType.name);
+            ref.on(updateType.name, (childSnapshot) => {
+                updateListener(updateType, Object.assign(childSnapshot.toJSON(), {id: childSnapshot.key}));
+            });
+        });
+
+
+    }
+
+    static unsubscribeFromIdeasUpdates() {
+        const ref = firebase.database().ref('/ideas');
+        ref.off();
     }
 
 }
