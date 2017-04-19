@@ -42,7 +42,11 @@ class IdeasList extends React.Component {
                     style={styles.listView}
                     enableEmptySections={true}
                     dataSource={dataSource}
-                    renderRow={(idea) => <IdeaItem idea={idea} onDownvote={this.props.onDownvote} onUpvote={this.props.onUpvote}/>}
+                    renderRow={(idea) => <IdeaItem idea={idea}
+                                                   user={this.props.user}
+                                                   onDownvote={this.props.onDownvote}
+                                                   onUpvote={this.props.onUpvote}
+                    />}
                     renderSeparator={() => <View style={styles.separator}/>}
                 />
                 <DefaultButton onPress={this._onAdd} title='Submit your idea'/>
@@ -58,7 +62,8 @@ IdeasList.propTypes = {
     onRefresh: React.PropTypes.func,
     ideas: React.PropTypes.arrayOf(React.PropTypes.object),
     onUpvote: React.PropTypes.func.isRequired,
-    onDownvote: React.PropTypes.func.isRequired
+    onDownvote: React.PropTypes.func.isRequired,
+    user: React.PropTypes.object.isRequired
 };
 
 const styles = StyleSheet.create({

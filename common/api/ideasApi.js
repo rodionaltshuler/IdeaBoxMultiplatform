@@ -32,9 +32,23 @@ class ideasApi {
     }
 
     static upvote(idea, userUid) {
-        const updateUpvotes = { [userUid]: true };
-        return firebase.database().ref('/ideas/' + idea.id + '/upvotes')
-            .update(updateUpvotes)
+        const ref = firebase.database().ref('/ideas/' + idea.id + '/upvotes');
+
+        //If idea already upvoted, cancel it
+        if (idea.upvotes && idea.upvotes[userUid]) {
+            return ref.child(userUid).remove()
+                .then(() => {
+                    delete(idea.upvotes[userUid]);
+                    return idea;
+                })
+                .catch(error => {
+                    console.log('Error removing upvote: ' + error.message);
+                    throw error;
+                });
+        }
+
+        const updateUpvotes = {[userUid]: true};
+        return ref.update(updateUpvotes)
             .then(() => {
                 idea.upvotes = Object.assign({}, idea.upvotes, updateUpvotes);
                 console.log('Idea updated after upvote: ' + JSON.stringify(idea));
@@ -47,9 +61,25 @@ class ideasApi {
     }
 
     static downvote(idea, userUid) {
-        const updateDownvotes = { [userUid]: true };
-        return firebase.database().ref('/ideas/' + idea.id + '/downvotes')
-            .update(updateDownvotes)
+
+        const ref = firebase.database().ref('/ideas/' + idea.id + '/downvotes');
+
+        //If idea already downvoted, cancel it
+        if (idea.downvotes && idea.downvotes[userUid]) {
+            return ref.child(userUid).remove()
+                .then(() => {
+                    delete(idea.downvotes[userUid]);
+                    return idea;
+                })
+                .catch(error => {
+                    console.log('Error removing downvote: ' + error.message);
+                    throw error;
+                });
+        }
+
+        const updateDownvotes = {[userUid]: true};
+
+        return ref.update(updateDownvotes)
             .then(() => {
                 idea.downvotes = Object.assign({}, idea.downvotes, updateDownvotes);
                 console.log('Idea updated after downvote: ' + JSON.stringify(idea));
@@ -60,8 +90,6 @@ class ideasApi {
                 throw error;
             });
     }
-
-
 
 }
 

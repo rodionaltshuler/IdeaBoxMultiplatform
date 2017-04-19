@@ -12,6 +12,8 @@ class IdeaItem extends React.Component {
         this.getDownvotesCount = this.getDownvotesCount.bind(this);
         this.onDownvote = this.onDownvote.bind(this, this.props.idea);
         this.onUpvote = this.onUpvote.bind(this, this.props.idea);
+        this.isUpvoted = this.isUpvoted.bind(this);
+        this.isDownvoted = this.isDownvoted.bind(this);
     }
 
     getUpvotesCount() {
@@ -20,6 +22,15 @@ class IdeaItem extends React.Component {
 
     getDownvotesCount() {
         return this.props.idea.downvotes ? Object.keys(this.props.idea.downvotes).length : 0;
+    }
+
+
+    isUpvoted() {
+        return this.props.idea.upvotes && this.props.idea.upvotes[this.props.user.uid];
+    }
+
+    isDownvoted() {
+        return this.props.idea.downvotes && this.props.idea.downvotes[this.props.user.uid];
     }
 
     onDownvote(idea) {
@@ -35,7 +46,7 @@ class IdeaItem extends React.Component {
             <View
                 style={{
                     flex: 1,
-                    height: 64,
+                    height: 72,
                     backgroundColor: '#ffffff',
                     alignItems: 'stretch',
                     justifyContent: 'center'
@@ -45,11 +56,13 @@ class IdeaItem extends React.Component {
                 </TouchableOpacity>
                 <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
                     <TouchableOpacity onPress={this.onUpvote}>
-                        <Image style={styles.actionIcon} source={thumbUp} onPress={this.props.onUpvote}/>
+                        <Image style={this.isUpvoted() ? styles.actionIconSelected : styles.actionIcon} source={thumbUp}
+                               onPress={this.props.onUpvote}/>
                     </TouchableOpacity>
                     <Text style={styles.smallText}>{this.getUpvotesCount()}</Text>
                     <TouchableOpacity onPress={this.onDownvote}>
-                        <Image style={styles.actionIcon} source={thumbDown}/>
+                        <Image style={this.isDownvoted() ? styles.actionIconSelected : styles.actionIcon}
+                               source={thumbDown}/>
                     </TouchableOpacity>
                     <Text style={styles.smallText}>{this.getDownvotesCount()}</Text>
                 </View>
@@ -62,16 +75,23 @@ class IdeaItem extends React.Component {
 IdeaItem.propTypes = {
     idea: React.PropTypes.object.isRequired,
     onUpvote: React.PropTypes.func.isRequired,
-    onDownvote: React.PropTypes.func.isRequired
+    onDownvote: React.PropTypes.func.isRequired,
+    user: React.PropTypes.object.isRequired
 };
 
 const styles = StyleSheet.create({
     itemtext: {
+        marginTop: 12,
         fontSize: 20,
         textAlign: 'center'
     },
     actionIcon: {
-        margin: 4
+        margin: 4,
+        opacity: 0.2
+    },
+    actionIconSelected: {
+        margin: 4,
+        opacity: 1
     },
     smallText: {
         margin: 4

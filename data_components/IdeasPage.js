@@ -48,6 +48,7 @@ class IdeasPage extends React.Component {
     render() {
         return <IdeasList
             ideas={this.props.ideas}
+            user={this.props.user}
             loading={this.state.isLoading}
             onAdd={this.navigateToAddIdea}
             onRefresh={this.forceRefresh}
