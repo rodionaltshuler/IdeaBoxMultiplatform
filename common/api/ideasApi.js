@@ -93,7 +93,7 @@ class ideasApi {
             const updateType = updateTypes[key];
             console.log('UpdateType.name: ' + updateType.name);
             ref.on(updateType.name, (childSnapshot) => {
-                updateListener(updateType, Object.assign(childSnapshot.toJSON(), {id: childSnapshot.key}));
+                updateListener(updateType, Object.assign({}, childSnapshot.toJSON(), {id: childSnapshot.key}));
             });
         });
 

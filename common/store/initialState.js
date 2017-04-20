@@ -2,7 +2,8 @@ const initialState = {
   ideas: [],
   user: {},
   ajaxCallsInProgress: 0,
-  submitIdeaStatus: {}
+  submitIdeaStatus: {},
+  ideasSyncCompleted: false
 };
 
 export default initialState;

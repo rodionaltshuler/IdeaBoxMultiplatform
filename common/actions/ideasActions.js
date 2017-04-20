@@ -5,8 +5,6 @@ import ideasApi from './../api/ideasApi';
 let subscribed = false;
 
 export function subscribeForIdeasUpdates() {
-
-
     return function(dispatch) {
         const updateListener = function (updateType, updateSnapshot) {
             console.log('Dispatching update data: ' + JSON.stringify(updateType));
@@ -16,7 +14,14 @@ export function subscribeForIdeasUpdates() {
 
         if (!subscribed) {
             subscribed = ideasApi.subscribeForIdeasUpdate(updateListener);
+            dispatch(startIdeasSync());
         }
+    }
+}
+
+export function startIdeasSync() {
+    return {
+        type: types.IDEAS_SYNC_STARTED
     }
 }
 

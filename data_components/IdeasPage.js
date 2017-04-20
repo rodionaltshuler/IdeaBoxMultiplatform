@@ -8,7 +8,7 @@ class IdeasPage extends React.Component {
 
     static navigationOptions = {
         title: 'Lohika Idea Box',
-        headerStyle: { backgroundColor: '#4fcb54'},
+        headerStyle: {backgroundColor: '#4fcb54'},
         headerTintColor: 'white',
     };
 
@@ -17,7 +17,7 @@ class IdeasPage extends React.Component {
         this.navigateToAddIdea = this.navigateToAddIdea.bind(this);
         this.onUpvote = this.onUpvote.bind(this);
         this.onDownvote = this.onDownvote.bind(this);
-        this.state = { isLoading: false };
+        this.state = {isLoading: false, ideasSyncCompleted: false};
     }
 
     navigateToAddIdea() {
@@ -33,7 +33,7 @@ class IdeasPage extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({ isLoading: nextProps.loading });
+        this.setState({isLoading: nextProps.loading, ideasSyncCompleted: nextProps.ideasSyncCompleted});
     }
 
     componentWillMount() {
@@ -48,13 +48,13 @@ class IdeasPage extends React.Component {
 
     render() {
         return <IdeasList
-            ideas={[...this.props.ideas]}
-            user={this.props.user}
-            loading={this.state.isLoading}
-            onAdd={this.navigateToAddIdea}
-            onUpvote={this.onUpvote}
-            onDownvote={this.onDownvote}
-        />
+                ideas={[...this.props.ideas]}
+                user={this.props.user}
+                loading={this.state.isLoading || !this.state.ideasSyncCompleted}
+                onAdd={this.navigateToAddIdea}
+                onUpvote={this.onUpvote}
+                onDownvote={this.onDownvote}
+            />
     }
 
 
@@ -69,7 +69,8 @@ function mapStateToProps(state, ownProps) {
     return {
         ideas: state.ideas,
         user: state.user,
-        loading: state.ajaxCallsInProgress > 0
+        loading: state.ajaxCallsInProgress > 0,
+        ideasSyncCompleted: state.ideasSyncCompleted
     };
 }
 

@@ -6,9 +6,7 @@ import {
     TouchableHighlight,
     TouchableNativeFeedback,
     Text,
-    StyleSheet,
-    TouchableOpacity,
-    ActivityIndicator
+    StyleSheet
 } from 'react-native';
 import DefaultButton from './DefaultButton';
 import IdeaItem from './IdeaItem'
@@ -30,25 +28,35 @@ class IdeasList extends React.Component {
     }
 
     render() {
-        const orderedIdas = this.props.ideas.sort((a, b) => this.sort(a, b));
-        const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows(orderedIdas);
+        const orderedIdeas = this.props.ideas.sort((a, b) => this.sort(a, b));
+        const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows(orderedIdeas);
+
+        const listView = <ListView
+            refreshControl={<RefreshControl
+                colors={['#40a544']}
+                refreshing={this.props.loading || false}
+            />}
+            style={styles.listView}
+            enableEmptySections={true}
+            dataSource={dataSource}
+            renderRow={(idea) => <IdeaItem idea={idea}
+                                           user={this.props.user}
+                                           onDownvote={this.props.onDownvote}
+                                           onUpvote={this.props.onUpvote}
+            />}
+            renderSeparator={() => <View style={styles.separator}/>}
+        />;
+
+        const emptyView = (
+            <View style={{flex: 1, justifyContent: 'center'}}>
+                <Text style={styles.emptyView}>No ideas yet - be the first to submit!</Text>
+            </View>
+        );
+        const showEmptyView = !this.props.loading && orderedIdeas.length < 1;
+
         return (
             <View style={styles.container}>
-                <ListView
-                    refreshControl={<RefreshControl
-                        colors={['#40a544']}
-                        refreshing={this.props.loading || false}
-                    />}
-                    style={styles.listView}
-                    enableEmptySections={true}
-                    dataSource={dataSource}
-                    renderRow={(idea) => <IdeaItem idea={idea}
-                                                   user={this.props.user}
-                                                   onDownvote={this.props.onDownvote}
-                                                   onUpvote={this.props.onUpvote}
-                    />}
-                    renderSeparator={() => <View style={styles.separator}/>}
-                />
+                {showEmptyView ? emptyView : listView}
                 <DefaultButton onPress={this._onAdd} title='Submit your idea'/>
             </View>
         );
@@ -86,6 +94,11 @@ const styles = StyleSheet.create({
     toolbar: {
         backgroundColor: '#40a544',
         height: 56
+    },
+    emptyView: {
+        textAlign: 'center',
+        fontSize: 16,
+        color: "#878787"
     }
 });
 
