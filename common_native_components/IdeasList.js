@@ -52,7 +52,7 @@ class IdeasList extends React.Component {
                 <Text style={styles.emptyView}>No ideas yet - be the first to submit!</Text>
             </View>
         );
-        const showEmptyView = !this.props.loading && orderedIdeas.length < 1;
+        const showEmptyView = !this.props.loading && Object.keys(orderedIdeas).length < 1;
 
         return (
             <View style={styles.container}>

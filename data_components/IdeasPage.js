@@ -33,7 +33,11 @@ class IdeasPage extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({isLoading: nextProps.loading, ideasSyncCompleted: nextProps.ideasSyncCompleted});
+        this.setState({
+            isLoading: nextProps.loading,
+            ideasSyncCompleted: nextProps.ideasSyncCompleted,
+            key: Math.random()
+        });
     }
 
     componentWillMount() {
@@ -48,6 +52,7 @@ class IdeasPage extends React.Component {
 
     render() {
         return <IdeasList
+                key={this.state.key}
                 ideas={[...this.props.ideas]}
                 user={this.props.user}
                 loading={this.state.isLoading || !this.state.ideasSyncCompleted}
